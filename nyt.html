@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>NYT title</title>
+</head>
+
+<body>
+
+  <button id="search">Search</button>
+  <button id="clearResults">Clear Results</button>
+
+  <div class="title"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+  <script type="text/javascript">
+
+
+    $("#search").on("click", function () {
+      // create peremeter for API url! Good luck Backend team!
+      var searchQ = "cat";
+      var startDate = 20100101;
+      var endDate = 20120101;
+      var numberOfRecords;
+
+      var queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?begin_date=" + startDate + "&end_date=" + endDate + "&q=" + searchQ + "&api-key=qw6Gh80Q5XGP2Gxf1SMCUYj80nwk2tuk";
+
+      $.ajax({
+        url: queryURL,
+        method: "GET"
+      })
+        .then(function (response) {
+
+          var results = response.response.docs;
+
+
+          for (i = 0; i < results.length; i++)
+          {
+            // 
+            var title = results[i].headline.main;
+
+            var link = results[i].web_url;
+
+            var linkDiv = $("<a href='" + results[i].web_url + "'>" + title + "</a><br>");
+
+            // console.log(link);
+
+            $(".title").append(linkDiv);
+
+          }
+
+
+        });
+
+    });
+
+
+
+
+    $("#clearResults").on("click", function () {
+
+      $("#articleList").empty();
+    });
+
+
+
+
+
+  </script>
+</body>
+
+</html>
